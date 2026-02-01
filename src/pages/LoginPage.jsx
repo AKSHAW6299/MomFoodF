@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { login } from '../services/authServices';
 import Navbar from '../components/common/Navbar';
 
@@ -15,6 +15,7 @@ const LoginPage = () => {
       localStorage.setItem('token', data.token);
       localStorage.setItem('role', data.user.role);
       window.location.href = '/dashboard';
+      setLoading(false)
     } catch (err) { alert("Invalid credentials"); }
   };
 
