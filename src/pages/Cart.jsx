@@ -53,7 +53,7 @@ const Cart = () => {
               {/* Item Details */}
               <div className="flex-grow">
                 <h3 className="font-bold text-slate-900">{item.name}</h3>
-                <p className="text-sm text-slate-400 font-medium">${item.price} per unit</p>
+                <p className="text-sm text-slate-400 font-medium">₹{item.price} per unit</p>
               </div>
 
               {/* Quantity Controls */}
@@ -75,7 +75,7 @@ const Cart = () => {
 
               {/* Price Calculation */}
               <div className="text-right min-w-[80px]">
-                <p className="text-lg font-black text-slate-900">${(item.price * item.quantity).toFixed(2)}</p>
+                <p className="text-lg font-black text-slate-900">₹{(item.price * item.quantity).toFixed(2)}</p>
               </div>
             </div>
           ))}
@@ -85,7 +85,7 @@ const Cart = () => {
         <div className="mt-12 pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-6">
           <div>
             <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest">Total Amount</p>
-            <p className="text-4xl font-black text-slate-900">${total.toFixed(2)}</p>
+            <p className="text-4xl font-black text-slate-900">₹{total.toFixed(2)}</p>
           </div>
           <button className="w-full md:w-auto bg-slate-900 text-white px-12 py-5 rounded-[1.5rem] font-black uppercase tracking-widest text-xs hover:bg-blue-600 shadow-2xl transition-all active:scale-95">
             Checkout Now

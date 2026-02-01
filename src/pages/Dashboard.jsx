@@ -64,7 +64,7 @@ const Dashboard = () => {
                 />
               </div>
               <div className="space-y-1">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Price ($)</label>
+                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Price (₹)</label>
                 <input 
                   required
                   type="number"
@@ -141,7 +141,7 @@ const Dashboard = () => {
               </div>
 
               <div className="space-y-0.5 px-1">
-                <p className="text-lg font-bold text-slate-900">${item.price}</p>
+                <p className="text-lg font-bold text-slate-900">₹{item.price}</p>
                 <h3 className="text-[13px] font-medium text-slate-500 leading-snug">{item.name}</h3>
                 <p className="text-[9px] font-bold text-slate-300 uppercase tracking-widest mt-1 italic">
                   Stock: {item.stock}
