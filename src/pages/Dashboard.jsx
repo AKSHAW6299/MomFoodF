@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { fetchProducts, addProduct } from '../services/authServices';
+import { fetchProducts } from '../services/authServices';
 import { useCart } from '../context/CartContext';
 import Navbar from '../components/common/Navbar';
 
 const Dashboard = () => {
   const [products, setProducts] = useState([]);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [formData, setFormData] = useState({ name: '', price: '', stock: '' });
   const { addToCart } = useCart();
 
   const loadInventory = async () => {

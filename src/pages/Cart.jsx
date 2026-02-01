@@ -4,7 +4,7 @@ import Navbar from '../components/common/Navbar';
 import { Link } from 'react-router-dom';
 
 const Cart = () => {
-  const { cart, removeFromCart, addToCart, getCartCount } = useCart();
+  const { cart, removeFromCart, addToCart } = useCart();
 
   // Calculate total price
   const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
