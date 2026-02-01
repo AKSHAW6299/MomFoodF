@@ -8,6 +8,10 @@ const Dashboard = () => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const { addToCart } = useCart();
 
+  // Get the user role from localStorage
+  const userRole = localStorage.getItem('role');
+  const isAdmin = userRole === 'admin';
+
   // Form State
   const [newItem, setNewItem] = useState({ name: '', price: '', stock: '' });
 
@@ -26,7 +30,6 @@ const Dashboard = () => {
     e.preventDefault();
     try {
       await addProduct(newItem);
-      // Success Logic
       setIsPanelOpen(false); 
       setNewItem({ name: '', price: '', stock: '' }); 
       loadInventory(); 
@@ -40,56 +43,58 @@ const Dashboard = () => {
     <div className="min-h-screen bg-white flex flex-col font-sans relative">
       <Navbar />
 
-      {/* --- ADD ITEM SIDE PANEL --- */}
-      <div className={`fixed inset-y-0 right-0 w-80 bg-white shadow-2xl z-50 transform transition-transform duration-500 border-l border-slate-100 ${isPanelOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-        <div className="p-8">
-          <div className="flex justify-between items-center mb-8">
-            <h2 className="font-black text-xl italic text-slate-900">Add <span className="text-blue-600">Stock</span></h2>
-            <button onClick={() => setIsPanelOpen(false)} className="text-slate-400 hover:text-slate-900">✕</button>
-          </div>
+      {/* --- ADD ITEM SIDE PANEL (Only renders for Admin) --- */}
+      {isAdmin && (
+        <div className={`fixed inset-y-0 right-0 w-80 bg-white shadow-2xl z-50 transform transition-transform duration-500 border-l border-slate-100 ${isPanelOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+          <div className="p-8">
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="font-black text-xl italic text-slate-900">Add <span className="text-blue-600">Stock</span></h2>
+              <button onClick={() => setIsPanelOpen(false)} className="text-slate-400 hover:text-slate-900">✕</button>
+            </div>
 
-          <form onSubmit={handleCreate} className="space-y-6">
-            <div className="space-y-1">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Product Name</label>
-              <input 
-                required
-                className="w-full bg-slate-50 border-none rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-600 outline-none" 
-                placeholder="e.g. Avocado Toast"
-                value={newItem.name}
-                onChange={(e) => setNewItem({...newItem, name: e.target.value})}
-              />
-            </div>
-            <div className="space-y-1">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Price ($)</label>
-              <input 
-                required
-                type="number"
-                className="w-full bg-slate-50 border-none rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-600 outline-none" 
-                placeholder="12.00"
-                value={newItem.price}
-                onChange={(e) => setNewItem({...newItem, price: e.target.value})}
-              />
-            </div>
-            <div className="space-y-1">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Initial Stock</label>
-              <input 
-                required
-                type="number"
-                className="w-full bg-slate-50 border-none rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-600 outline-none" 
-                placeholder="50"
-                value={newItem.stock}
-                onChange={(e) => setNewItem({...newItem, stock: e.target.value})}
-              />
-            </div>
-            <button className="w-full bg-slate-900 text-white py-4 rounded-xl font-black uppercase tracking-[0.2em] text-[10px] hover:bg-blue-600 shadow-xl shadow-blue-100 transition-all">
-              Deploy to Inventory
-            </button>
-          </form>
+            <form onSubmit={handleCreate} className="space-y-6">
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Product Name</label>
+                <input 
+                  required
+                  className="w-full bg-slate-50 border-none rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-600 outline-none" 
+                  placeholder="e.g. Avocado Toast"
+                  value={newItem.name}
+                  onChange={(e) => setNewItem({...newItem, name: e.target.value})}
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Price ($)</label>
+                <input 
+                  required
+                  type="number"
+                  className="w-full bg-slate-50 border-none rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-600 outline-none" 
+                  placeholder="12.00"
+                  value={newItem.price}
+                  onChange={(e) => setNewItem({...newItem, price: e.target.value})}
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Initial Stock</label>
+                <input 
+                  required
+                  type="number"
+                  className="w-full bg-slate-50 border-none rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-600 outline-none" 
+                  placeholder="50"
+                  value={newItem.stock}
+                  onChange={(e) => setNewItem({...newItem, stock: e.target.value})}
+                />
+              </div>
+              <button className="w-full bg-slate-900 text-white py-4 rounded-xl font-black uppercase tracking-[0.2em] text-[10px] hover:bg-blue-600 shadow-xl shadow-blue-100 transition-all">
+                Deploy to Inventory
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* --- OVERLAY --- */}
-      {isPanelOpen && (
+      {isPanelOpen && isAdmin && (
         <div 
           className="fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-40 transition-opacity"
           onClick={() => setIsPanelOpen(false)}
@@ -102,12 +107,16 @@ const Dashboard = () => {
           <h1 className="text-3xl font-black text-slate-900 tracking-tight italic">
             Kitchen<span className="text-blue-600">Console</span>
           </h1>
-          <button
-            onClick={() => setIsPanelOpen(true)}
-            className="bg-slate-900 text-white px-6 py-3 rounded-xl font-bold uppercase tracking-widest text-[10px] hover:bg-blue-600 transition-all shadow-lg"
-          >
-            + Add Item
-          </button>
+          
+          {/* Conditional Rendering for Add Button */}
+          {isAdmin && (
+            <button
+              onClick={() => setIsPanelOpen(true)}
+              className="bg-slate-900 text-white px-6 py-3 rounded-xl font-bold uppercase tracking-widest text-[10px] hover:bg-blue-600 transition-all shadow-lg"
+            >
+              + Add Item
+            </button>
+          )}
         </div>
 
         {/* Product Grid */}
