@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { verifyOtp } from '../services/authServices';
 import Navbar from '../components/common/Navbar';
-import { toast } from 'react-toastify';
+
 
 const VerifyOTP = () => {
   const [otp, setOtp] = useState(new Array(6).fill(""));
@@ -44,8 +44,6 @@ const VerifyOTP = () => {
         purpose: state?.purpose || 'reset' 
       });
       
-      toast.success("Identity Confirmed");
-      
       // Navigate based on intent
       if (state?.purpose === 'signup') {
         navigate('/login');
@@ -53,7 +51,7 @@ const VerifyOTP = () => {
         navigate('/reset-password', { state: { email: state?.email } });
       }
     } catch (err) {
-      toast.error("Security code invalid or expired");
+      console.error(err)
     }
   };
 

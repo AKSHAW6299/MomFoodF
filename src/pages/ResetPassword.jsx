@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { resetPassword } from '../services/authServices';
 import Navbar from '../components/common/Navbar';
-import { toast } from 'react-toastify';
 
 const ResetPassword = () => {
   const [pass, setPass] = useState('');
@@ -13,10 +12,9 @@ const ResetPassword = () => {
     e.preventDefault();
     try {
       await resetPassword({ email: state?.email, newPassword: pass });
-      toast.success("Security credentials updated. Re-authenticating...");
       setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
-      toast.error("Security update failed. Please request a new link.");
+      console.error(err)
     }
   };
 

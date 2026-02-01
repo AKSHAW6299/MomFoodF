@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../services/authServices';
 import Navbar from '../components/common/Navbar';
-import { toast } from 'react-toastify';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');

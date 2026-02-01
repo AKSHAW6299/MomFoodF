@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signup } from '../services/authServices';
 import Navbar from '../components/common/Navbar';
-import { toast } from 'react-toastify';
+
 
 const SignupPage = () => {
   const [form, setForm] = useState({ name: '', email: '', password: '' });
@@ -12,10 +12,9 @@ const SignupPage = () => {
     e.preventDefault();
     try {
       await signup(form);
-      toast.success("Account created! Verify your email to continue.");
       navigate('/verify-otp', { state: { email: form.email, purpose: 'signup' } });
     } catch (err) {
-      toast.error(err.response?.data?.message || "Provisioning failed. Please try again.");
+      console.error(err)
     }
   };
 
