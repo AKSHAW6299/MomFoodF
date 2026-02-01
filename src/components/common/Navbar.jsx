@@ -35,7 +35,7 @@ const Navbar = () => {
       {/* NAVIGATION LINKS */}
       <nav className="hidden lg:flex items-center gap-8 text-[10px] font-black uppercase tracking-[0.15em] text-slate-400">
         <Link to="/menu" className="hover:text-blue-600 transition-colors">Explorer</Link>
-        <Link to="/offers" className="hover:text-blue-600 transition-colors">Offers</Link>
+        <Link to="/offers" className="hover:text-blue-600 transition-colors">Special Offers</Link>
         {token && (
           <Link to="/dashboard" className="text-slate-900 font-bold border-b-2 border-blue-600 pb-1">
             {role === 'admin' ? 'Admin Console' : 'My Orders'}
@@ -61,14 +61,23 @@ const Navbar = () => {
         </Link>
 
         {token ? (
-          <div className="flex items-center gap-3 pl-4 border-l border-slate-200">
+          <div className="flex items-center gap-4 pl-4 border-l border-slate-200">
             {/* USER IDENTITY CHIP */}
-            <div className="flex flex-col items-end text-right">
-              <span className="text-[10px] font-black text-slate-900 leading-none capitalize tracking-tight">
-                {userName}
-              </span>
-              <span className={`text-[8px] font-bold uppercase tracking-widest mt-1 px-1.5 py-0.5 rounded-md ${
-                role === 'admin' ? 'bg-green-50 text-green-600' : 'bg-orange-50 text-orange-600'
+            <div className="flex flex-col items-end text-right group cursor-default">
+              <div className="flex items-center gap-2">
+                {/* BLINKING ACTIVE CIRCLE */}
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                </span>
+                <span className="text-[10px] font-black text-slate-900 leading-none capitalize tracking-tight group-hover:text-blue-600 transition-colors">
+                  {userName}
+                </span>
+              </div>
+              <span className={`text-[8px] font-bold uppercase tracking-widest mt-1.5 px-2 py-0.5 rounded-full border ${
+                role === 'admin' 
+                ? 'bg-blue-50 text-blue-600 border-blue-100' 
+                : 'bg-slate-50 text-slate-500 border-slate-100'
               }`}>
                 {role}
               </span>
@@ -76,23 +85,25 @@ const Navbar = () => {
 
             {/* AVATAR & DROPDOWN */}
             <div className="relative group">
-              <button className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center border border-slate-200 group-hover:border-blue-400 group-hover:bg-white transition-all overflow-hidden">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-slate-500" viewBox="0 0 20 20" fill="currentColor">
+              <button className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center border border-slate-800 hover:bg-blue-600 transition-all duration-300 shadow-lg shadow-slate-200 overflow-hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
                 </svg>
               </button>
 
-              {/* FLOATING LOGOUT MENU */}
-              <div className="absolute right-0 mt-3 w-44 bg-white border border-slate-100 shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-2xl p-2 opacity-0 translate-y-2 invisible group-hover:opacity-100 group-hover:translate-y-0 group-hover:visible transition-all duration-300">
+              {/* FLOATING DROPDOWN */}
+              <div className="absolute right-0 mt-3 w-48 bg-white border border-slate-100 shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-2xl p-2 opacity-0 translate-y-2 invisible group-hover:opacity-100 group-hover:translate-y-0 group-hover:visible transition-all duration-300">
                 <div className="px-3 py-2 border-b border-slate-50 mb-1">
-                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Account Settings</p>
+                  <p className="text-[8px] font-bold text-slate-400 uppercase tracking-[0.2em] text-center">Session Identity</p>
+                  {/* <p className="text-[10px] font-bold text-slate-700 truncate">{userName}@momfood.com</p> */}
                 </div>
+                
                 <button 
                   onClick={handleLogout}
-                  className="w-full flex items-center justify-between px-3 py-2.5 text-red-500 hover:bg-red-50 rounded-xl transition-colors"
+                  className="w-full flex items-center justify-center px-3 py-3 text-red-500 hover:bg-red-50 rounded-xl transition-all group/btn"
                 >
-                  <span className="text-[10px] font-black uppercase tracking-widest">Sign Out</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <span className="text-[10px] font-black uppercase tracking-widest">Logout</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                   </svg>
                 </button>
@@ -100,8 +111,8 @@ const Navbar = () => {
             </div>
           </div>
         ) : (
-          <Link to="/login" className="bg-slate-900 text-white px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-600 transition-all">
-            Login
+          <Link to="/login" className="bg-slate-900 text-white px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-600 transition-all shadow-lg shadow-blue-900/10">
+            Initialize Login
           </Link>
         )}
       </div>
